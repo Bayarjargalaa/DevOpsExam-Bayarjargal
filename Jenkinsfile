@@ -1,21 +1,20 @@
 pipeline {
-    agent any 
+    agent any
     stages {
         stage('Restore') {
             steps {
-                bat 'dotnet restore SoftUniBazar.sln'
+                sh 'dotnet restore'
             }
         }
         stage('Build') {
             steps {
-                bat 'dotnet build SoftUniBazar.sln --configuration Release'
+                sh 'dotnet build'
             }
         }
         stage('Test') {
             steps {
-                bat 'dotnet test SoftUniBazar.Tests/SoftUniBazar.Tests.csproj'
+                sh 'dotnet test'
             }
         }
-        
     }
 }
