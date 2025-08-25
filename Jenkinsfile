@@ -1,32 +1,21 @@
 pipeline {
-    agent any
-
+    agent any 
     stages {
-        stage('Checkout') {
+        stage('Restore') {
             steps {
-                checkout scm
-            }
-        }
-        stage('Restore dependencies') {
-            steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore SoftUniBazar.sln'
             }
         }
         stage('Build') {
             steps {
-                sh 'dotnet build --no-restore'
+                bat 'dotnet build SoftUniBazar.sln --configuration Release'
             }
         }
         stage('Test') {
             steps {
-                script {
-                    if (env.BRANCH_NAME == "develop") {
-                        sh 'dotnet test --filter "Category=Unit"'
-                    } else if (env.BRANCH_NAME == "staging") {
-                        sh 'dotnet test --filter "Category=Integration"'
-                    }
-                }
+                bat 'dotnet test SoftUniBazar.Tests/SoftUniBazar.Tests.csproj'
             }
         }
+        
     }
 }
